@@ -1,0 +1,27 @@
+schema:
+  - ./ent/ent.graphql
+  - ./graphql/*.graphql
+
+resolver:
+  # gqlgenに、スキーマファイルの隣にリゾルバを生成するように指示する
+  layout: follow-schema
+  dir: ./resolver
+  package: resolver
+
+exec:
+  filename: internal/generated.go
+  package: internal
+
+# gqlgenは生成されたentパッケージ内のスキーマに含まれる型名を
+# 検索する。 一致すればそれを使い、そうでなければ新しいものを使う
+autobind:
+  - go-ent-gqlgen/ent
+
+models:
+  ID:
+    model:
+      - github.com/99designs/gqlgen/graphql.IntID
+  Node:
+    model:
+      # ent.Noderは、Nodeテンプレートが生成する新しいインターフェースである
+      - go-ent-gqlgen/ent.Noder
